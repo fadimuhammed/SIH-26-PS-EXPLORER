@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #0F2A4A;
+  color: #E8EFF5;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bp-grid {
+  background-image:
+    linear-gradient(#1D457350 1px, transparent 1px),
+    linear-gradient(90deg, #1D457350 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+}
+
+.bp-grid-fade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, transparent 0%, #0F2A4A 85%);
+  pointer-events: none;
+}
+
+/* Cross-hatching — the drafting convention for "section not detailed."
+   Used only on the two content-unavailable stub cards. */
+.bp-hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    #E8EFF512 0px,
+    #E8EFF512 1px,
+    transparent 1px,
+    transparent 8px
+  );
+}
+
+/* Dimension-line divider: a measured line with tick ends, standing in
+   for a plain hairline where a section break is being "called out." */
+.bp-dim-line {
+  position: relative;
+  height: 1px;
+  background: #1D4573;
+}
+.bp-dim-line::before,
+.bp-dim-line::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: #1D4573;
+}
+.bp-dim-line::before { left: 0; }
+.bp-dim-line::after { right: 0; }
+
+::selection {
+  background: #FF6B35;
+  color: #E8EFF5;
+}
+
+/* Visible keyboard focus — redline, the drafter's mark of attention */
+:focus-visible {
+  outline: 2px solid #FF6B35;
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar, cyanotype themed */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0F2A4A;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A5686;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3D6A9A;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Cyanotype exposure reveal — the page-load signature. A cyanotype print
+   develops under UV light: the image resolves from a flat wash as exposed
+   areas darken. We invert that for a dark UI (light sweeps, content
+   resolves in behind it) — a single orchestrated moment, not used again
+   anywhere else on the page. */
+@keyframes bp-exposure-sweep {
+  0% { transform: translateX(-120%); opacity: 0.9; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+@keyframes bp-exposure-resolve {
+  0% { opacity: 0; filter: blur(2px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+.bp-exposure-sweep {
+  animation: bp-exposure-sweep 1.1s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.bp-exposure-resolve {
+  animation: bp-exposure-resolve 0.9s ease-out 0.15s both;
+}
